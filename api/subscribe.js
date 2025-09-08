@@ -24,9 +24,9 @@ export default async function handler(req, res) {
     const { email, firstName, lastName } = req.body;
     
     // Get Mailchimp configuration from environment variables
-    const apiKey = process.env.VITE_MAILCHIMP_API_KEY;
-    const serverPrefix = process.env.VITE_MAILCHIMP_SERVER_PREFIX;
-    const audienceId = process.env.VITE_MAILCHIMP_AUDIENCE_ID;
+    const apiKey = process.env.MAILCHIMP_API_KEY;
+    const serverPrefix = process.env.MAILCHIMP_SERVER_PREFIX;
+    const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
 
     if (!apiKey || !serverPrefix || !audienceId) {
       return res.status(500).json({

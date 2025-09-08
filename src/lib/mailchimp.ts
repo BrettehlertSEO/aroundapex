@@ -11,23 +11,8 @@ export interface SubscriptionData {
   lastName?: string;
 }
 
-// Get Mailchimp configuration from environment variables
-const getMailchimpConfig = () => {
-  const apiKey = import.meta.env.VITE_MAILCHIMP_API_KEY;
-  const serverPrefix = import.meta.env.VITE_MAILCHIMP_SERVER_PREFIX;
-  const audienceId = import.meta.env.VITE_MAILCHIMP_AUDIENCE_ID;
-
-  console.log('Environment variables loaded:');
-  console.log('API Key:', apiKey ? `${apiKey.substring(0, 10)}...` : 'MISSING');
-  console.log('Server Prefix:', serverPrefix || 'MISSING');
-  console.log('Audience ID:', audienceId || 'MISSING');
-
-  if (!apiKey || !serverPrefix || !audienceId) {
-    throw new Error('Mailchimp configuration is missing. Please check your environment variables.');
-  }
-
-  return { apiKey, serverPrefix, audienceId };
-};
+// Note: Mailchimp API key is now handled server-side in the Vercel function
+// This prevents the API key from being exposed in the browser
 
 // Subscribe email to Mailchimp audience via Vercel serverless function
 export const subscribeToNewsletter = async (data: SubscriptionData): Promise<MailchimpResponse> => {
