@@ -37,6 +37,14 @@ export const HeroSection = () => {
       const result = await subscribeToNewsletter({ email });
       
       if (result.success) {
+        // Track Facebook conversion event
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead', {
+            content_name: 'Newsletter Subscription',
+            content_category: 'Email Signup'
+          });
+        }
+        
         toast({
           title: "Welcome to Around Apex! 🎉",
           description: result.message,
