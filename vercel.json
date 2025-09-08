@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "env": {
-    "VITE_MAILCHIMP_API_KEY": "@mailchimp_api_key",
-    "VITE_MAILCHIMP_SERVER_PREFIX": "@mailchimp_server_prefix",
-    "VITE_MAILCHIMP_AUDIENCE_ID": "@mailchimp_audience_id"
-  }
-}
