@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@beehiiv/sdk": "^0.1.7",
     "@hookform/resolvers": "^3.10.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@radix-ui/react-accordion": "^1.2.11",

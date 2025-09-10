@@ -1,4 +1,4 @@
-// Vercel serverless function for Mailchimp subscription
+// Vercel serverless function for BeeHiiv subscription
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -23,15 +23,14 @@ export default async function handler(req, res) {
   try {
     const { email, firstName, lastName } = req.body;
     
-    // Get Mailchimp configuration from environment variables
-    const apiKey = process.env.MAILCHIMP_API_KEY;
-    const serverPrefix = process.env.MAILCHIMP_SERVER_PREFIX;
-    const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
+    // Get BeeHiiv configuration from environment variables
+    const apiKey = process.env.BEEHIIV_API_KEY;
+    const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
 
-    if (!apiKey || !serverPrefix || !audienceId) {
+    if (!apiKey || !publicationId) {
       return res.status(500).json({
         success: false,
-        message: 'Mailchimp configuration is missing'
+        message: 'BeeHiiv configuration is missing'
       });
     }
 
@@ -44,34 +43,35 @@ export default async function handler(req, res) {
       });
     }
 
-    // Create subscriber data
+    // Create subscriber data for BeeHiiv
     const subscriberData = {
-      email_address: email,
-      status: 'subscribed',
-      merge_fields: {
-        FNAME: firstName || '',
-        LNAME: lastName || '',
-      },
-      tags: ['Apex Newsletter', 'Website Signup'],
+      email: email,
+      publication_id: publicationId,
+      send_welcome_email: true,
+      utm_source: 'website',
+      utm_medium: 'landing_page',
+      utm_campaign: 'around_apex_newsletter',
+      custom_fields: {
+        first_name: firstName || '',
+        last_name: lastName || '',
+        source: 'Around Apex Website'
+      }
     };
 
-    // Make request to Mailchimp
-    const response = await fetch(
-      `https://${serverPrefix}.api.mailchimp.com/3.0/lists/${audienceId}/members`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `apikey ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(subscriberData),
-      }
-    );
+    // Make request to BeeHiiv API
+    const response = await fetch('https://api.beehiiv.com/v2/publications/' + publicationId + '/subscriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(subscriberData),
+    });
 
     const result = await response.json();
 
     if (!response.ok) {
-      if (result.title === 'Member Exists') {
+      if (result.message && result.message.includes('already exists')) {
         return res.status(400).json({
           success: false,
           message: 'This email is already subscribed to our newsletter.'
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
       
       return res.status(400).json({
         success: false,
-        message: result.detail || 'Failed to subscribe. Please try again.'
+        message: result.message || 'Failed to subscribe. Please try again.'
       });
     }
 
