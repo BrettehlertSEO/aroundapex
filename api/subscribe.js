@@ -31,6 +31,7 @@ export default async function handler(req, res) {
     console.log('API Key exists:', !!apiKey);
     console.log('Publication ID exists:', !!publicationId);
     console.log('Publication ID:', publicationId);
+    console.log('Using BeeHiiv V2 API format');
 
     if (!apiKey || !publicationId) {
       return res.status(500).json({
