@@ -48,19 +48,29 @@ export default async function handler(req, res) {
       });
     }
 
-    // Create subscriber data for BeeHiiv
+    // Create subscriber data for BeeHiiv V2 API
     const subscriberData = {
       email: email,
-      publication_id: publicationId,
+      reactivate_existing: false,
       send_welcome_email: true,
       utm_source: 'website',
       utm_medium: 'landing_page',
       utm_campaign: 'around_apex_newsletter',
-      custom_fields: {
-        first_name: firstName || '',
-        last_name: lastName || '',
-        source: 'Around Apex Website'
-      }
+      referring_site: 'aroundapex.com',
+      custom_fields: [
+        {
+          name: 'First Name',
+          value: firstName || ''
+        },
+        {
+          name: 'Last Name', 
+          value: lastName || ''
+        },
+        {
+          name: 'Source',
+          value: 'Around Apex Website'
+        }
+      ]
     };
 
     // Make request to BeeHiiv API
