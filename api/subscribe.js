@@ -27,6 +27,11 @@ export default async function handler(req, res) {
     const apiKey = process.env.BEEHIIV_API_KEY;
     const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
 
+    console.log('Environment check:');
+    console.log('API Key exists:', !!apiKey);
+    console.log('Publication ID exists:', !!publicationId);
+    console.log('Publication ID:', publicationId);
+
     if (!apiKey || !publicationId) {
       return res.status(500).json({
         success: false,
@@ -59,7 +64,11 @@ export default async function handler(req, res) {
     };
 
     // Make request to BeeHiiv API
-    const response = await fetch('https://api.beehiiv.com/v2/publications/' + publicationId + '/subscriptions', {
+    const apiUrl = 'https://api.beehiiv.com/v2/publications/' + publicationId + '/subscriptions';
+    console.log('Making request to:', apiUrl);
+    console.log('Subscriber data:', subscriberData);
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -69,6 +78,8 @@ export default async function handler(req, res) {
     });
 
     const result = await response.json();
+    console.log('BeeHiiv response status:', response.status);
+    console.log('BeeHiiv response:', result);
 
     if (!response.ok) {
       if (result.message && result.message.includes('already exists')) {
