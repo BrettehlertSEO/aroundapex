@@ -1,4 +1,5 @@
 import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -12,10 +13,17 @@ export const Footer = () => {
         </div>
         
         <div className="border-t border-primary-foreground/20 pt-8">
-          <p className="flex items-center justify-center gap-2 text-sm text-primary-foreground/60">
-            Made with <Heart className="w-4 h-4 text-accent" /> for the Apex community
-          </p>
-          <p className="text-xs text-primary-foreground/40 mt-2">
+          <div className="flex items-center justify-center gap-4 text-sm text-primary-foreground/60 mb-2">
+            <Link 
+              to="/privacy-policy" 
+              className="hover:text-primary-foreground transition-colors underline"
+            >
+              Privacy Policy
+            </Link>
+            <span>•</span>
+            <span>Made with <Heart className="w-4 h-4 text-accent inline" /> for the Apex community</span>
+          </div>
+          <p className="text-xs text-primary-foreground/40">
             © 2025 Around Apex. All rights reserved.
           </p>
         </div>

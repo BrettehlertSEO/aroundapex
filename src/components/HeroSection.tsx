@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { subscribeToNewsletter, validateEmail } from "@/lib/mailchimp";
+import { Link } from "react-router-dom";
 import apexHero from "@/assets/apex-hero.jpg";
 
 export const HeroSection = () => {
@@ -115,8 +116,18 @@ export const HeroSection = () => {
             </div>
           </form>
 
-          <p className="text-sm opacity-80">
+          <p className="text-sm opacity-80 mb-4">
             📧 Free weekly newsletter • 🚫 No spam • ✨ Unsubscribe anytime
+          </p>
+          
+          <p className="text-xs opacity-70">
+            By subscribing, you agree to our{" "}
+            <Link 
+              to="/privacy-policy" 
+              className="underline hover:opacity-100 transition-opacity"
+            >
+              Privacy Policy
+            </Link>
           </p>
         </div>
       </div>
